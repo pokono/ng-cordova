@@ -487,9 +487,9 @@ angular.module('ngCordova.plugins.ble', [])
         return q.promise;
       },
 
-      writeCommand: function (deviceID, serviceUUID, characteristicUUID, data) {
+      writeWithoutResponse: function (deviceID, serviceUUID, characteristicUUID, data) {
         var q = $q.defer();
-        ble.writeCommand(deviceID, serviceUUID, characteristicUUID, data, function (result) {
+        ble.writeWithoutResponse(deviceID, serviceUUID, characteristicUUID, data, function (result) {
           q.resolve(result);
         }, function (error) {
           q.reject(error);
@@ -497,9 +497,19 @@ angular.module('ngCordova.plugins.ble', [])
         return q.promise;
       },
 
-      notify: function (deviceID, serviceUUID, characteristicUUID) {
+      startNotification: function (deviceID, serviceUUID, characteristicUUID) {
         var q = $q.defer();
-        ble.notify(deviceID, serviceUUID, characteristicUUID, function (result) {
+        ble.startNotification(deviceID, serviceUUID, characteristicUUID, function (result) {
+          q.resolve(result);
+        }, function (error) {
+          q.reject(error);
+        });
+        return q.promise;
+      },
+
+      stopNotification: function (deviceID, serviceUUID, characteristicUUID) {
+        var q = $q.defer();
+        ble.stopNotification(deviceID, serviceUUID, characteristicUUID, function (result) {
           q.resolve(result);
         }, function (error) {
           q.reject(error);
@@ -4146,6 +4156,8 @@ angular.module('ngCordova.plugins.media', [])
         q.promise.stopRecord = function () {
           media.stopRecord();
         };
+
+        q.promise.media = media;
 
         return q.promise;
       }
